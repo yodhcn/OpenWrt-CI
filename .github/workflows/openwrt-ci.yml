@@ -1,4 +1,4 @@
-# 
+# https://github.com/coolsnowwolf/lede/blob/38595344c23bdaaec155925cc6e92f67481f189e/.github/workflows/openwrt-ci.yml
 # <https://github.com/KFERMercer/OpenWrt-CI>
 #
 # Copyright (C) 2019 P3TERX
@@ -8,16 +8,14 @@
 name: OpenWrt-CI
 
 on:
-  schedule:
-    - cron: 0 20 * * *
+  repository_dispatch:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-
   build_openwrt:
-
     name: Build OpenWrt Firmware
 
     runs-on: ubuntu-latest
@@ -39,22 +37,38 @@ jobs:
           sudo -E apt clean
           sudo -E timedatectl set-timezone "Asia/Shanghai"
 
-      - name: Checkout OpenWrt
+      - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Clone source code
+        env:
+          REPO_URL: https://github.com/coolsnowwolf/lede
+          REPO_BRANCH: master
+        run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+
       - name: Update feeds
+        working-directory: ./openwrt
         run: |
           sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
       - name: Generate configuration file
-        run: make defconfig
+        env:
+          CONFIG_FILE: ".config"
+        run: |
+          [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+          chmod +x diy.sh
+          cd openwrt
+          $GITHUB_WORKSPACE/diy.sh
+          make defconfig
 
       - name: Download packages
+        working-directory: ./openwrt
         run: make download -j16
 
       - name: Compile firmware
+        working-directory: ./openwrt
         run: |
           make -j$(nproc) || make -j1 V=s
           echo "======================="
@@ -67,6 +81,7 @@ jobs:
           du -h --max-depth=1 ./bin
 
       - name: Prepare artifact
+        working-directory: ./openwrt
         run: |
           mkdir -p ./artifact/package
           mkdir -p ./artifact/buildinfo
@@ -78,16 +93,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_buildinfo
-          path: ./artifact/buildinfo/
+          path: ./openwrt/artifact/buildinfo/
 
       - name: Upload package
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_package
-          path: ./artifact/package/
+          path: ./openwrt/artifact/package/
 
       - name: Upload firmware
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_firmware
-          path: ./bin/targets/
+          path: ./openwrt/bin/targets/
