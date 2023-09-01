@@ -40,11 +40,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Clone source code
+      - name: Clone coolsnowwolf/lede
         env:
           REPO_URL: https://github.com/coolsnowwolf/lede
           REPO_BRANCH: master
         run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+
+      - name: Clone vernesong/OpenClash
+        env:
+          REPO_URL: https://github.com/vernesong/OpenClash
+          REPO_BRANCH: master
+        run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH OpenClash
+
+      - name: Add package luci-app-openclash
+        run: mv OpenClash/luci-app-openclash openwrt/package/luci-app-openclash
 
       - name: Update feeds
         working-directory: ./openwrt

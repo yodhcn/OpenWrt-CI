@@ -7,6 +7,7 @@
 - 额外的 LuCI 应用 (`LuCI --> Applicants --->`)
   - `<*> luci-app-acme`
   - `<*> luci-app-mosdns`
+  - `<*> luci-app-openclash`
   - `<*> luci-app-socat`
   - `<*> luci-app-uhttpd`
 - 额外的软件包 (`Network --->`)
