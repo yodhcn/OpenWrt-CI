@@ -7,8 +7,6 @@
 - 额外的 LuCI 应用 (`LuCI --> Applicants --->`)
   - `<*> luci-app-dockerman`
   - `<*> luci-app-openclash`
-  - `<*> luci-app-ssr-plus`
-    - `[*] Include Shadowsocks V2ray Plugin`
   - `<*> luci-app-uhttpd`
 - 额外的软件包 (`Utilities --->`)
   - `<*> docker-compose`
