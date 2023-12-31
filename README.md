@@ -5,11 +5,11 @@
 - 开启 ipv6 (`Extra packages --->`)
   - `<*> ipv6helper`
 - 额外的 LuCI 应用 (`LuCI --> Applicants --->`)
-  - `<*> luci-app-acme`
-  - `<*> luci-app-mosdns`
+  - `<*> luci-app-dockerman`
   - `<*> luci-app-openclash`
-  - `<*> luci-app-socat`
+  - `<*> luci-app-ssr-plus`
+    - `[*] Include Shadowsocks V2ray Plugin`
   - `<*> luci-app-uhttpd`
-- 额外的软件包 (`Network --->`)
-  - `<*> acme-dnsapi`
+- 额外的软件包 (`Utilities --->`)
+  - `<*> docker-compose`
 - 修改默认 ip (`192.168.1.1` -> `192.168.5.1`)
