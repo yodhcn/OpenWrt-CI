@@ -5,12 +5,9 @@
 - `Extra packages --->`
   - `<*> ipv6helper`
 - `LuCI --->`
-  - `Collections --->`
-    - `<*> luci-nginx`
-    - `<*> luci-ssl-nginx`
   - `Applicants --->`
     - `<*> luci-app-acme`
-    - `<*> luci-app-openclash`
+    - `<*> luci-app-uhttpd`
 - `Network --->`
   - `<*> acme-dnsapi`
 - 修改默认 ip (`192.168.1.1` -> `192.168.5.1`)
