@@ -13,5 +13,7 @@
     - `-*- ip6tables`
       - `<*> ip6tables-extra`
       - `<*> ip6tables-mod-nat`
+  - `IP Addresses and Names --->`
+    - `<*> bind-host`
   - `<*> acme-dnsapi`
 - 修改默认 ip (`192.168.1.1` -> `192.168.5.1`)
